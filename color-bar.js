@@ -105,6 +105,7 @@ function injectColorBar() {
   const colorBar = document.createElement('div');
   colorBar.id = 'color-bar';
   colorBar.classList.add('hidden');
+  colorBar.classList.add('group');
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
 
