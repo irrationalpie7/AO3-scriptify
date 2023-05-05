@@ -35,13 +35,9 @@ function setupHighlighting() {
   startButton.textContent = "Start color-coding dialogue";
   highlightForm.appendChild(startButton);
 
-  const freezeText = "Freeze color-coding";
-  const unfreezeText = "Return to editing color-coding";
-  const freezeButton = document.createElement("button");
-  freezeButton.textContent = freezeText;
-  freezeButton.classList.add("hidden");
-  freezeButton.disabled = true;
-  highlightForm.appendChild(freezeButton);
+  const warning = document.createElement("p");
+  warning.innerHTML =
+    "Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.";
 
   startButton.addEventListener("click", () => {
     startButton.disabled = true;
@@ -54,24 +50,7 @@ function setupHighlighting() {
     Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
       enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
-    freezeButton.disabled = false;
-    freezeButton.classList.remove("hidden");
-  });
-
-  freezeButton.addEventListener("click", () => {
-    if (freezeButton.textContent === freezeText) {
-      freezeButton.textContent = unfreezeText;
-
-      Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-        quote.classList.remove("active-quote")
-      );
-    } else {
-      freezeButton.textContent = freezeText;
-
-      Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-        quote.classList.add("active-quote")
-      );
-    }
+    highlightForm.appendChild(warning);
   });
 }
 
