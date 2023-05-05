@@ -32,10 +32,10 @@ function wrapElements(quoteGroup) {
  *
  * @param {HTMLElement} element
  */
-function recursiveHighlight(element) {
+function recursivelyHighlight(element) {
   const children = Array.from(element.childNodes);
   if (element.nodeName !== "P" || element.querySelector("p") !== null) {
-    children.forEach((child) => recursiveHighlight(child));
+    children.forEach((child) => recursivelyHighlight(child));
     return;
   }
 
@@ -76,13 +76,4 @@ function recursiveHighlight(element) {
   if (quoteGroup.length !== 0) {
     wrapElements(quoteGroup);
   }
-}
-
-/**
- * Attempts to wrap all lines of dialogue in colored spans.
- *
- * @param {HTMLElement} element
- */
-function highlightAll(element) {
-  recursiveHighlight(element);
 }
