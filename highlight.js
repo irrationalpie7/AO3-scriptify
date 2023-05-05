@@ -58,7 +58,7 @@ function recursivelyHighlight(element) {
     // if this text node is on a quote boundary:
     if (
       child.nodeType === Node.TEXT_NODE &&
-      child.textContent.match(new RegExp(quoteRegexString)).length !== 0
+      child.textContent.match(new RegExp(quoteRegexString)) !== null
     ) {
       // figure out whether it's the beginning of a quote or the end of a quote and handle that
       if (quoteGroup.length === 0) {
