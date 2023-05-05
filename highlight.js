@@ -45,16 +45,17 @@ function recursivelyHighlight(element) {
   // split text at quotes
   children.forEach((child) => {
     if (child.nodeType === Node.TEXT_NODE && child.textContent) {
-      const matches1 = [
+      const rawMatches = [
         ...child.textContent.matchAll(new RegExp(quoteRegexString, "gi")),
       ];
-        // go backwards so you don't have to recalculate indices based on previous splits
-      const matches2 = matches1.map((match) => match.index || -1);
-      const matches3 = matches2.sort();
-      const matches = matches3.reverse();
+      // index should never be undefined, but if it is, fall back to -1 I guess so the
+      // compiler doesn't complain
+      const matchIndexes = rawMatches.map((match) => match.index ?? -1);
+      // go backwards so you don't have to recalculate indices based on previous splits
+      const matches = matchIndexes.sort().reverse();
 
       for (let i = 0; i < matches.length; i++) {
-        /** @type {Text} */ (child).splitText(-matches[i]);
+        /** @type {Text} */ (child).splitText(matches[i]);
       }
     }
   });
