@@ -51,8 +51,8 @@ function recursivelyHighlight(element) {
       // index should never be undefined, but if it is, fall back to -1 I guess so the
       // compiler doesn't complain
       const matchIndexes = rawMatches.map((match) => match.index ?? -1);
-      // go backwards so you don't have to recalculate indices based on previous splits
-      const matches = matchIndexes.sort().reverse();
+      // sort from high to low order
+      const matches = matchIndexes.sort((a, b) => b - a);
 
       for (let i = 0; i < matches.length; i++) {
         if (matches[i] < 0 || matches[i] > child.textContent.length) {
