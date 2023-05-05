@@ -50,7 +50,7 @@ function setupHighlighting() {
     }
 
     Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-      wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
+      enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
 
     highlightForm.appendChild(freezeButton);
@@ -58,19 +58,14 @@ function setupHighlighting() {
       if (freezeButton.textContent === freezeText) {
         freezeButton.textContent = unfreezeText;
 
-        Array.from(document.querySelectorAll(".script-quote-button")).forEach(
-          (quote) =>
-            quote.parentNode?.replaceChild(
-              /**@type {Node}*/
-              (quote.querySelector(".script-quote")),
-              quote
-            )
+        Array.from(document.querySelectorAll(".script-quote")).forEach(
+          (quote) => quote.classList.remove("active-quote")
         );
       } else {
         freezeButton.textContent = freezeText;
 
         Array.from(document.querySelectorAll(".script-quote")).forEach(
-          (quote) => wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
+          (quote) => quote.classList.add("active-quote")
         );
       }
     });
@@ -80,46 +75,67 @@ function setupHighlighting() {
 const colorState = { num: 1, increase: false };
 
 /**
- * Wrap a quote span with a button.
+ * Cycle through to the next quote color.
  *
  * @param {HTMLElement} quote
  */
-function wrapQuoteWithButton(quote) {
-  const button = document.createElement("input");
-  button.type = "button";
-  button.classList.add("script-quote-button");
-  button.classList.add("script-quote-active-button");
-  quote.parentNode?.replaceChild(button, quote);
-  button.appendChild(quote);
-  button.addEventListener("click", () => {
-    const curColor = Number(quote.dataset.color);
-    let newColor = curColor + 1;
+function click(quote) {
+  if (!quote.classList.contains("active-quote")) {
+    return;
+  }
+  const curColor = Number(quote.dataset.color);
+  let newColor = curColor + 1;
 
-    if (colorState.increase) {
-      // We've previously marked that we want to permanently increase the number
-      // of dialogue colors, so do that now....
-      // *unless* we are already the new dialogue color and are trying to rotating back
-      if (curColor !== colorState.num) {
-        colorState.num++;
-        colorState.increase = false;
-      } else {
-        newColor = 0;
-        colorState.increase = false;
-      }
+  if (colorState.increase) {
+    // We've previously marked that we want to permanently increase the number
+    // of dialogue colors, so do that now....
+    // *unless* we are already the new dialogue color and are trying to rotating back
+    if (curColor !== colorState.num) {
+      colorState.num++;
+      colorState.increase = false;
+    } else {
+      newColor = 0;
+      colorState.increase = false;
     }
+  }
 
-    if (newColor === colorState.num) {
-      colorState.increase = true;
+  if (newColor === colorState.num) {
+    colorState.increase = true;
+  }
+
+  quote.classList.remove(`color-${curColor}`);
+  quote.classList.add(`color-${newColor}`);
+  quote.dataset.color = `${newColor}`;
+}
+
+/**
+ * Make quotes clickable
+ *
+ * @param {HTMLElement} quote
+ */
+function enableQuoteClicking(quote) {
+  // make quote act like a button:
+  quote.role = "button";
+  quote.tabIndex = 0;
+  quote.classList.add("active");
+  quote.addEventListener("click", () => click(quote));
+  quote.addEventListener("keyDown", (e) => {
+    if (
+      /**@type {KeyboardEvent}*/ (e).key === "Enter" ||
+      /**@type {KeyboardEvent}*/ (e).key === " "
+    ) {
+      click(quote);
     }
-
-    quote.classList.remove(`color-${curColor}`);
-    quote.classList.add(`color-${newColor}`);
-    quote.dataset.color = `${newColor}`;
   });
 }
 
+/**
+ * Add css for each color.
+ */
 function injectColorCss() {
   for (let i = 0; i <= 14; i++) {
+    // Note: we put them all in separate style elements with a particular id
+    // in case we ever want to support customizing colors.
     const style = document.createElement("style");
     style.id = `color-${i}`;
     style.innerHTML = `.color-${i} {
@@ -130,6 +146,12 @@ function injectColorCss() {
   }
 }
 
+/**
+ * Programmatically pick a set of background colors
+ * 
+ * @param {number} i 
+ * @returns {string} CSS color
+ */
 function getColor(i) {
   // first, odd /14ths. Then, even 14ths.
   const adjusted = (((i * 4) % 7) * 2 - 1) / 14.0;
@@ -145,6 +167,12 @@ function getColor(i) {
   return "rgb(255, 0, 0)";
 }
 
+/**
+ * Pick a contrasting text color for that background color.
+ * 
+ * @param {number} i 
+ * @returns {string} CSS color
+ */
 function getTextColor(i) {
   // @ts-ignore
   const background = new Color(getColor(i));
