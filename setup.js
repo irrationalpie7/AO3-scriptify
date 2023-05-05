@@ -42,7 +42,7 @@ function setupHighlighting() {
       wrapQuoteWithButton(quote)
     );
   });
-  highlightForm.appendChild(showHideButton);
+  highlightForm.appendChild(startButton);
 
   const freezeButton = document.createElement("button");
   const freezeText = "Freeze color-coding";
@@ -65,6 +65,7 @@ function setupHighlighting() {
       );
     }
   });
+  highlightForm.appendChild(freezeButton);
 
   return true;
 }
