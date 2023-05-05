@@ -31,8 +31,16 @@ function setupHighlighting() {
   metaDescriptionList.appendChild(highlightTitle);
   metaDescriptionList.appendChild(highlightForm);
 
+  const freezeButton = document.createElement("button");
+  const freezeText = "Freeze color-coding";
+  const unfreezeText = "Return to editing color-coding";
+  freezeButton.textContent = freezeText;
+  freezeButton.disabled = true;
+
   const startButton = document.createElement("button");
   startButton.textContent = "Start color-coding dialogue";
+  highlightForm.appendChild(startButton);
+
   startButton.addEventListener("click", () => {
     startButton.disabled = true;
     injectColorCss();
@@ -44,34 +52,28 @@ function setupHighlighting() {
     Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
       wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
     );
+
     highlightForm.appendChild(freezeButton);
-  });
-  highlightForm.appendChild(startButton);
+    freezeButton.addEventListener("click", () => {
+      if (freezeButton.textContent === freezeText) {
+        freezeButton.textContent = unfreezeText;
 
-  const freezeButton = document.createElement("button");
-  const freezeText = "Freeze color-coding";
-  const unfreezeText = "Return to editing color-coding";
-  freezeButton.textContent = freezeText;
-  freezeButton.disabled = true;
-  freezeButton.addEventListener("click", () => {
-    if (freezeButton.textContent === freezeText) {
-      freezeButton.textContent = unfreezeText;
+        Array.from(document.querySelectorAll(".script-quote-button")).forEach(
+          (quote) =>
+            quote.parentNode?.replaceChild(
+              /**@type {Node}*/
+              (quote.querySelector(".script-quote")),
+              quote
+            )
+        );
+      } else {
+        freezeButton.textContent = freezeText;
 
-      Array.from(document.querySelectorAll(".script-quote-button")).forEach(
-        (quote) =>
-          quote.parentNode?.replaceChild(
-            /**@type {Node}*/
-            (quote.querySelector(".script-quote")),
-            quote
-          )
-      );
-    } else {
-      freezeButton.textContent = freezeText;
-
-      Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-        wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
-      );
-    }
+        Array.from(document.querySelectorAll(".script-quote")).forEach(
+          (quote) => wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
+        );
+      }
+    });
   });
 }
 
@@ -83,8 +85,10 @@ const colorState = { num: 1, increase: false };
  * @param {HTMLElement} quote
  */
 function wrapQuoteWithButton(quote) {
-  const button = document.createElement("button");
+  const button = document.createElement("input");
+  button.type = "button";
   button.classList.add("script-quote-button");
+  button.classList.add("script-quote-active-button");
   quote.parentNode?.replaceChild(button, quote);
   button.appendChild(quote);
   button.addEventListener("click", () => {
