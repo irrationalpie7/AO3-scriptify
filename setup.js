@@ -120,7 +120,7 @@ function enableQuoteClicking(quote) {
   // make quote act like a button:
   quote.role = "button";
   quote.tabIndex = 0;
-  quote.classList.add("active");
+  quote.classList.add("active-quote");
   const thisQuote = quote;
   quote.addEventListener("click", () => click(thisQuote));
   quote.addEventListener("keyDown", (e) => {
