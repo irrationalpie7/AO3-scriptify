@@ -41,6 +41,9 @@ function setupHighlighting() {
   startButton.textContent = "Start color-coding dialogue";
   highlightForm.appendChild(startButton);
 
+  // TODO: remove
+  console.log("hey ho the merry-o");
+
   startButton.addEventListener("click", () => {
     startButton.disabled = true;
     injectColorCss();
