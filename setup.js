@@ -55,9 +55,7 @@ function setupHighlighting() {
   startButton.textContent = 'Start color-coding dialogue';
   highlightForm.appendChild(startButton);
 
-  const warning = document.createElement('p');
-  warning.innerHTML =
-    'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
+  const colorBar = injectColorBar();
 
   startButton.addEventListener('click', () => {
     startButton.disabled = true;
@@ -70,6 +68,6 @@ function setupHighlighting() {
     Array.from(document.querySelectorAll('.script-quote')).forEach(quote =>
       enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
-    highlightForm.appendChild(warning);
+    colorBar.classList.remove('hidden');
   });
 }

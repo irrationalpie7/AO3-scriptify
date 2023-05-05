@@ -98,6 +98,8 @@ function enableQuoteClicking(quote) {
 
 /**
  * Inject color bar
+ * 
+ * @returns {HTMLDivElement} 
  */
 function injectColorBar() {
   const colorBar = document.createElement('div');
@@ -105,6 +107,12 @@ function injectColorBar() {
   colorBar.classList.add('hidden');
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
+
+  
+  const warning = document.createElement('p');
+  warning.innerHTML =
+    'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
+  colorBar.appendChild(warning);
 
   const buttonList = document.createElement('ul');
   buttonList.id = 'scriptify-button-list';
@@ -133,7 +141,7 @@ function injectColorBar() {
   buttonList?.appendChild(listItem);
   listItem.appendChild(button);
 
-  //
+  return colorBar;
 }
 
 /**
