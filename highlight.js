@@ -55,6 +55,10 @@ function recursivelyHighlight(element) {
       const matches = matchIndexes.sort().reverse();
 
       for (let i = 0; i < matches.length; i++) {
+        if (matches[i] < 0 || matches[i] > child.textContent.length) {
+          console.log(child.textContent);
+          console.log(child);
+        }
         /** @type {Text} */ (child).splitText(matches[i]);
       }
     }
