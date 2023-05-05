@@ -45,11 +45,16 @@ function recursivelyHighlight(element) {
   // split text at quotes
   children.forEach((child) => {
     if (child.nodeType === Node.TEXT_NODE && child.textContent) {
-      [...child.textContent.matchAll(new RegExp(quoteRegexString, "gi"))]
+      const matches = [
+        ...child.textContent.matchAll(new RegExp(quoteRegexString, "gi")),
+      ]
         // go backwards so you don't have to recalculate indices based on previous splits
         .map((match) => -(match.index || 1))
-        .sort()
-        .forEach((index) => /** @type {Text} */ (child).splitText(-index));
+        .sort();
+
+      for (let i = 0; i < matches.length; i++) {
+        /** @type {Text} */ (child).splitText(-matches[i]);
+      }
     }
   });
 
