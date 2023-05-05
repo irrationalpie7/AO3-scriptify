@@ -118,13 +118,14 @@ function enableQuoteClicking(quote) {
   quote.role = "button";
   quote.tabIndex = 0;
   quote.classList.add("active");
-  quote.addEventListener("click", () => click(quote));
+  const thisQuote = quote;
+  quote.addEventListener("click", () => click(thisQuote));
   quote.addEventListener("keyDown", (e) => {
     if (
       /**@type {KeyboardEvent}*/ (e).key === "Enter" ||
       /**@type {KeyboardEvent}*/ (e).key === " "
     ) {
-      click(quote);
+      click(thisQuote);
     }
   });
 }

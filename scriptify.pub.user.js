@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      0.9.4
+// @version      0.9.5
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
@@ -33,7 +33,6 @@
         box-shadow: none;
         vertical-align: baseline;
         border-radius: 0;
-        display: inline-flex;
     }
 
     /* Underline on hover */
