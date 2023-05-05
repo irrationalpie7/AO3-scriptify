@@ -12,7 +12,7 @@ function addColorToColorBar(i) {
   const button = document.createElement('button');
   button.id = `scriptify-button-${i}`;
   button.classList.add(`color-${i}`);
-  button.textContent = `Lock to color ${i}`;
+  button.textContent = `${i}`;
   button.addEventListener('click', () => {
     const prevActive = buttonList?.querySelector('.active-button');
     if (prevActive) {
@@ -112,18 +112,18 @@ function injectColorBar() {
   const div = document.createElement('div');
   colorBar.appendChild(div);
 
-  const warning = document.createElement('p');
-  warning.innerHTML =
-    'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
-  div.appendChild(warning);
+  const info = document.createElement('p');
+  info.innerHTML =
+    'Rotate through available colors or pick a particular color to paint.';
+  div.appendChild(info);
 
   const buttonList = document.createElement('ul');
   buttonList.id = 'scriptify-button-list';
   div.appendChild(buttonList);
 
   const button = document.createElement('button');
-  button.id = `scriptify-button-null`;
-  button.textContent = `Rotate colors`;
+  button.id = `scriptify-button-rotate`;
+  button.textContent = `Rotate`;
   button.addEventListener('click', () => {
     const prevActive = buttonList?.querySelector('.active-button');
     if (prevActive) {
