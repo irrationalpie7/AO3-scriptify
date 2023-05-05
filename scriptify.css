@@ -1,51 +1,69 @@
 /* Underline on hover */
 span.script-quote:hover.active-quote {
-    border-bottom: 1px solid;
+  border-bottom: 1px solid;
 }
 
 span.script-quote:focus.active-quote {
-    outline: 1px dotted;
+  outline: 1px dotted;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .highlight-form button:hover {
-    outline: 1px solid;
+  outline: 1px solid;
 }
 
-.color-bar {
-    border: 1px double;
+#color-bar {
+  border: 1px double;
+  padding: 0 10px;
+  margin: 5px 0;
 }
 
 .sticky {
-    position: fixed;
-    top: 0;
-    width: 100%
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 #scriptify-button-list li {
-    display: inline-block;
+  display: inline-block;
+}
+
+#scriptify-button-rotate {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 201, 222),
+    rgba(253, 217, 124),
+    rgba(251, 253, 170),
+    rgba(193, 240, 178),
+    rgba(178, 228, 240),
+    rgba(214, 178, 240)
+  );
+  background-size: 100% 150%;
+  color: black;
 }
 
 #scriptify-button-list button {
-    width: 13em;
+  width: 8em;
+  margin: 10px;
+  box-shadow: inset 0 -2px 4px #232323, inset 0 2px 7px #555;
 }
 
 #scriptify-button-list button.active-button,
 #scriptify-button-list button.active-button:hover {
-    display: inline-block;
-    border: 2px solid white;
-    outline: 2px solid black;
-}
-
-#scriptify-button-list button:hover {
-    border: 1px solid white;
-    outline: 1px solid black;
+  display: inline-block;
+  border: 2px solid #cccccc;
+  outline: 2px solid #444444;
 }
 
 #scriptify-button-list button:focus {
-    border: 1px dotted white;
-    outline: 1px dotted black;
+  border: 1px dotted white;
+  outline: 1px dotted black;
+}
+
+#scriptify-button-list button:hover {
+  border: 1px solid white;
+  outline: 1px solid black;
 }

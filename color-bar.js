@@ -14,7 +14,7 @@ function addColorToColorBar(i) {
   button.classList.add(`color-${i}`);
   button.textContent = `Lock to color ${i}`;
   button.addEventListener('click', () => {
-    const prevActive = buttonList?.querySelector('active-button');
+    const prevActive = buttonList?.querySelector('.active-button');
     if (prevActive) {
       /**@type {HTMLButtonElement}*/ (prevActive).disabled = false;
       prevActive.classList.remove('active-button');
@@ -98,8 +98,8 @@ function enableQuoteClicking(quote) {
 
 /**
  * Inject color bar
- * 
- * @returns {HTMLDivElement} 
+ *
+ * @returns {HTMLDivElement}
  */
 function injectColorBar() {
   const colorBar = document.createElement('div');
@@ -108,7 +108,6 @@ function injectColorBar() {
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
 
-  
   const warning = document.createElement('p');
   warning.innerHTML =
     'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
@@ -122,7 +121,7 @@ function injectColorBar() {
   button.id = `scriptify-button-null`;
   button.textContent = `Rotate colors`;
   button.addEventListener('click', () => {
-    const prevActive = buttonList?.querySelector('active-button');
+    const prevActive = buttonList?.querySelector('.active-button');
     if (prevActive) {
       /**@type {HTMLButtonElement}*/ (prevActive).disabled = false;
       prevActive.classList.remove('active-button');
@@ -134,12 +133,11 @@ function injectColorBar() {
   });
   button.classList.add('active-button');
   button.disabled = true;
-  addColorToColorBar(0);
-  addColorToColorBar(1);
-
   const listItem = document.createElement('li');
   buttonList?.appendChild(listItem);
   listItem.appendChild(button);
+  addColorToColorBar(0);
+  addColorToColorBar(1);
 
   return colorBar;
 }
