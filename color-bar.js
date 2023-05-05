@@ -50,10 +50,10 @@ function click(quote) {
   let newColor = curColor + 1;
   if (colorState.locked) {
     newColor = colorState.lockIndex;
-    while (colorState.lockIndex >= colorState.num) {
+    if (colorState.lockIndex >= colorState.num) {
       colorState.num++;
-      addColorToColorBar(colorState.num);
       colorState.increase = false;
+      addColorToColorBar(colorState.num);
     }
   }
 
