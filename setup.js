@@ -31,18 +31,17 @@ function setupHighlighting() {
   metaDescriptionList.appendChild(highlightTitle);
   metaDescriptionList.appendChild(highlightForm);
 
-  const freezeButton = document.createElement("button");
-  const freezeText = "Freeze color-coding";
-  const unfreezeText = "Return to editing color-coding";
-  freezeButton.textContent = freezeText;
-  freezeButton.disabled = true;
-
   const startButton = document.createElement("button");
   startButton.textContent = "Start color-coding dialogue";
   highlightForm.appendChild(startButton);
 
-  // TODO: remove
-  console.log("hey ho the merry-o");
+  const freezeText = "Freeze color-coding";
+  const unfreezeText = "Return to editing color-coding";
+  const freezeButton = document.createElement("button");
+  freezeButton.textContent = freezeText;
+  freezeButton.classList.add("hidden");
+  freezeButton.disabled = true;
+  highlightForm.appendChild(freezeButton);
 
   startButton.addEventListener("click", () => {
     startButton.disabled = true;
@@ -55,23 +54,24 @@ function setupHighlighting() {
     Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
       enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
+    freezeButton.disabled = false;
+    freezeButton.classList.remove("hidden");
+  });
 
-    highlightForm.appendChild(freezeButton);
-    freezeButton.addEventListener("click", () => {
-      if (freezeButton.textContent === freezeText) {
-        freezeButton.textContent = unfreezeText;
+  freezeButton.addEventListener("click", () => {
+    if (freezeButton.textContent === freezeText) {
+      freezeButton.textContent = unfreezeText;
 
-        Array.from(document.querySelectorAll(".script-quote")).forEach(
-          (quote) => quote.classList.remove("active-quote")
-        );
-      } else {
-        freezeButton.textContent = freezeText;
+      Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
+        quote.classList.remove("active-quote")
+      );
+    } else {
+      freezeButton.textContent = freezeText;
 
-        Array.from(document.querySelectorAll(".script-quote")).forEach(
-          (quote) => quote.classList.add("active-quote")
-        );
-      }
-    });
+      Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
+        quote.classList.add("active-quote")
+      );
+    }
   });
 }
 

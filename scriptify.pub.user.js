@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      0.9.8
+// @version      0.9.9
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
@@ -32,13 +32,12 @@
         outline: 1px dotted;
     }
     
-    
-    span.script-quote:hover {
-        border-bottom: 1px solid;
+    .hidden {
+        display: none;
     }
-    
-    span.script-quote:focus {
-        outline: 1px dotted;
+
+    .highlight-form button:hover {
+        outline: 1px solid;
     }
     `;
   document.head.appendChild(style);
