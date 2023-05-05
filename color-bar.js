@@ -109,14 +109,17 @@ function injectColorBar() {
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
 
+  const div = document.createElement('div');
+  colorBar.appendChild(div);
+
   const warning = document.createElement('p');
   warning.innerHTML =
     'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
-  colorBar.appendChild(warning);
+  div.appendChild(warning);
 
   const buttonList = document.createElement('ul');
   buttonList.id = 'scriptify-button-list';
-  colorBar.appendChild(buttonList);
+  div.appendChild(buttonList);
 
   const button = document.createElement('button');
   button.id = `scriptify-button-null`;
