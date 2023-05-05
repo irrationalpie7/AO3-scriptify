@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      0.9.5
+// @version      0.9.6
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
@@ -23,25 +23,23 @@
   setupHighlighting();
 
   const style = document.createElement("style");
-  style.innerHTML = `  /* Make the button not look like a button */
-    span.script-quote {
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        box-shadow: none;
-        vertical-align: baseline;
-        border-radius: 0;
-    }
-
-    /* Underline on hover */
+  style.innerHTML = `/* Underline on hover */
     span.script-quote:hover.active-quote {
         border-bottom: 1px solid;
     }
-
+    
+    span.script-quote:focus.active-quote {
+        outline: 1px dotted;
+    }
+    
+    
+    span.script-quote:hover {
+        border-bottom: 1px solid;
+    }
+    
     span.script-quote:focus {
         outline: 1px dotted;
-    }`;
+    }
+    `;
   document.head.appendChild(style);
 })();
