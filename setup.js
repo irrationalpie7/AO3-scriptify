@@ -8,7 +8,7 @@
  */
 function setupHighlighting() {
   // Document positioning. Note: this selector only works on a work page.
-  const metaDescriptionList = parent.querySelector("dl.work.meta.group");
+  const metaDescriptionList = document.querySelector("dl.work.meta.group");
   if (metaDescriptionList === null) {
     console.log(
       "Unable to determine where to insert highlighting buttons--aborting"
