@@ -69,5 +69,6 @@ function setupHighlighting() {
       enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
     colorBar.classList.remove('hidden');
+    makeColorBarSticky(colorBar);
   });
 }

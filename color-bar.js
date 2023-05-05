@@ -1,5 +1,5 @@
 // @ts-check
-const colorState = {num: 1, increase: false, locked: true, lockIndex: 0};
+const colorState = {num: 1, increase: false, locked: false, lockIndex: 0};
 
 /**
  * Update color bar (e.g. if there's a new)
@@ -133,6 +133,8 @@ function injectColorBar() {
   });
   button.classList.add('active-button');
   button.disabled = true;
+  // start unlocked
+  colorState.locked = false;
   const listItem = document.createElement('li');
   buttonList?.appendChild(listItem);
   listItem.appendChild(button);
