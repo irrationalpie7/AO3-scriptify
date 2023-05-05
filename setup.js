@@ -59,7 +59,6 @@ function setupHighlighting() {
 
   startButton.addEventListener('click', () => {
     startButton.disabled = true;
-    injectColorCss();
     const work = document.querySelector('#workskin');
     if (work) {
       recursivelyHighlight(work);

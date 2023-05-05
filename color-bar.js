@@ -2,11 +2,17 @@
 const colorState = {num: 1, increase: false, locked: false, lockIndex: 0};
 
 /**
- * Update color bar (e.g. if there's a new)
+ * Update color bar
  *
  * @param {number} i
  */
 function addColorToColorBar(i) {
+  if (i > 14) {
+    colorState.increase = false;
+    colorState.num = 14;
+    return;
+  }
+  injectColorCss(i);
   const buttonList = document.querySelector('#scriptify-button-list');
 
   const button = document.createElement('button');
@@ -168,22 +174,19 @@ function makeColorBarSticky(colorBar) {
 
 /**
  * Add css for each color.
+ * @param {number} i
  */
-function injectColorCss() {
-  for (let i = 0; i <= 14; i++) {
-    // Note: we put them all in separate style elements with a particular id
-    // in case we ever want to support customizing colors.
-    const style = document.createElement('style');
-    style.id = `color-${i}`;
-    style.innerHTML = `.color-${i},
-      button.color-${i},
-      button.color-${i}:focus,
-      button.color-${i}:hover {
-        background-color: ${getColor(i)};
-        color: ${getTextColor(i)}
-      }`;
-    document.head.appendChild(style);
-  }
+function injectColorCss(i) {
+  const style = document.createElement('style');
+  style.id = `color-${i}`;
+  style.innerHTML = `.color-${i},
+    button.color-${i},
+    button.color-${i}:focus,
+    button.color-${i}:hover {
+    background-color: ${getColor(i)};
+    color: ${getTextColor(i)}
+    }`;
+  document.head.appendChild(style);
 }
 
 /**

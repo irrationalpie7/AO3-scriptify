@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      1.0.7
+// @version      1.0.8
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
