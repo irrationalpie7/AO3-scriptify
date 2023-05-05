@@ -1,6 +1,26 @@
 // @ts-check
 
 /**
+ *
+ * @returns {boolean}
+ */
+function isAo3WorkPage() {
+  // Url of the ao3 page.
+  const url = location.href;
+
+  // Check whether this page is an ao3 work.
+  const works_regex = /https:\/\/archiveofourown\.org(\/.*)?\/works\/[0-9]+.*/;
+  // Check whether it's an editing page.
+  const edit_page_regex = /\/works\/[0-9]+\/edit/;
+
+  return (
+    url.match(works_regex) !== null &&
+    url.match(edit_page_regex) === null &&
+    !url.includes('works/new')
+  );
+}
+
+/**
  * Generate the dom elements for color-coding dialogue on a work page.
  *
  * This function is a no-op if the elements already exist, or this is not a work
@@ -8,171 +28,48 @@
  */
 function setupHighlighting() {
   // Document positioning. Note: this selector only works on a work page.
-  const metaDescriptionList = document.querySelector("dl.work.meta.group");
+  const metaDescriptionList = document.querySelector('dl.work.meta.group');
   if (metaDescriptionList === null) {
     console.log(
-      "Unable to determine where to insert highlighting buttons--aborting"
+      'Unable to determine where to insert highlighting buttons--aborting'
     );
     return;
   }
 
-  if (document.getElementById("highlight-title") !== null) {
-    console.log("Aborting highlighting setup--this has already been done.");
+  if (document.getElementById('highlight-title') !== null) {
+    console.log('Aborting highlighting setup--this has already been done.');
     return;
   }
 
-  const highlightTitle = document.createElement("dt");
-  highlightTitle.textContent = "Scriptify:";
-  highlightTitle.id = "highlight-title";
+  const highlightTitle = document.createElement('dt');
+  highlightTitle.textContent = 'Scriptify:';
+  highlightTitle.id = 'highlight-title';
 
-  const highlightForm = document.createElement("dd");
-  highlightForm.id = "highlight-form";
+  const highlightForm = document.createElement('dd');
+  highlightForm.id = 'highlight-form';
 
   metaDescriptionList.appendChild(highlightTitle);
   metaDescriptionList.appendChild(highlightForm);
 
-  const startButton = document.createElement("button");
-  startButton.textContent = "Start color-coding dialogue";
+  const startButton = document.createElement('button');
+  startButton.textContent = 'Start color-coding dialogue';
   highlightForm.appendChild(startButton);
 
-  const warning = document.createElement("p");
+  const warning = document.createElement('p');
   warning.innerHTML =
-    "Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.";
+    'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
 
-  startButton.addEventListener("click", () => {
+  startButton.addEventListener('click', () => {
     startButton.disabled = true;
     injectColorCss();
-    const work = document.querySelector("#workskin");
+    const work = document.querySelector('#workskin');
     if (work) {
       recursivelyHighlight(work);
     }
 
-    Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
+    Array.from(document.querySelectorAll('.script-quote')).forEach(quote =>
       enableQuoteClicking(/**@type {HTMLElement}*/ (quote))
     );
     highlightForm.appendChild(warning);
   });
-}
-
-const colorState = { num: 1, increase: false };
-
-/**
- * Cycle through to the next quote color.
- *
- * @param {HTMLElement} quote
- */
-function click(quote) {
-  if (!quote.classList.contains("active-quote")) {
-    return;
-  }
-  const curColor = Number(quote.dataset.color);
-  let newColor = curColor + 1;
-
-  if (colorState.increase) {
-    // We've previously marked that we want to permanently increase the number
-    // of dialogue colors, so do that now....
-    // *unless* we are already the new dialogue color and are trying to rotating back
-    if (curColor !== colorState.num) {
-      colorState.num++;
-      colorState.increase = false;
-    } else {
-      newColor = 0;
-      colorState.increase = false;
-    }
-  }
-
-  if (newColor === colorState.num) {
-    colorState.increase = true;
-  }
-
-  quote.classList.remove(`color-${curColor}`);
-  quote.classList.add(`color-${newColor}`);
-  quote.dataset.color = `${newColor}`;
-}
-
-/**
- * Make quotes clickable
- *
- * @param {HTMLElement} quote
- */
-function enableQuoteClicking(quote) {
-  // make quote act like a button:
-  quote.role = "button";
-  quote.tabIndex = 0;
-  quote.classList.add("active-quote");
-  const thisQuote = quote;
-  quote.addEventListener("click", () => click(thisQuote));
-  quote.addEventListener("keyDown", (e) => {
-    if (
-      /**@type {KeyboardEvent}*/ (e).key === "Enter" ||
-      /**@type {KeyboardEvent}*/ (e).key === " "
-    ) {
-      click(thisQuote);
-    }
-  });
-}
-
-/**
- * Add css for each color.
- */
-function injectColorCss() {
-  for (let i = 0; i <= 14; i++) {
-    // Note: we put them all in separate style elements with a particular id
-    // in case we ever want to support customizing colors.
-    const style = document.createElement("style");
-    style.id = `color-${i}`;
-    style.innerHTML = `.color-${i} {
-      background-color: ${getColor(i)};
-      color: ${getTextColor(i)}
-    }`;
-    document.head.appendChild(style);
-  }
-}
-
-/**
- * Programmatically pick a set of background colors
- * 
- * @param {number} i 
- * @returns {string} CSS color
- */
-function getColor(i) {
-  // first, odd /14ths. Then, even 14ths.
-  const adjusted = (((i * 4) % 7) * 2 - 1) / 14.0;
-  if (i < 7) {
-    // @ts-ignore
-    return d3.interpolateRainbow(adjusted);
-  }
-  if (i < 14) {
-    // @ts-ignore
-    return d3.interpolateRainbow(adjusted - 1 / 14.0);
-  }
-  // we are out of colors; return bright red.
-  return "rgb(255, 0, 0)";
-}
-
-/**
- * Pick a contrasting text color for that background color.
- * 
- * @param {number} i 
- * @returns {string} CSS color
- */
-function getTextColor(i) {
-  // @ts-ignore
-  const background = new Color(getColor(i));
-
-  // https://colorjs.io/docs/contrast.html#accessible-perceptual-contrast-algorithm-apca
-  const contrastWhite = Math.abs(
-    // @ts-ignore
-    background.contrast(new Color("white"), "APCA")
-  );
-  const contrastBlack = Math.abs(
-    // @ts-ignore
-    background.contrast(new Color("black"), "APCA")
-  );
-
-  // the farther from zero, the better
-  if (contrastBlack < contrastWhite) {
-    return "white";
-  }
-  return "black";
 }

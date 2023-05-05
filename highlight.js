@@ -11,46 +11,66 @@ function wrapElements(quoteGroup) {
   if (quoteGroup.length === 0) {
     return;
   }
-  const spannySpan = document.createElement("span");
-  spannySpan.classList.add("script-quote");
-  spannySpan.classList.add("color-0");
-  spannySpan.dataset.color = "0";
+  const quoteSpan = document.createElement('span');
+  quoteSpan.classList.add('script-quote');
+  quoteSpan.classList.add('color-0');
+  quoteSpan.dataset.color = '0';
 
   const origParent = quoteGroup[0].parentNode;
-  origParent?.replaceChild(spannySpan, quoteGroup[0]);
-  spannySpan.appendChild(quoteGroup[0]);
+  origParent?.replaceChild(quoteSpan, quoteGroup[0]);
+  quoteSpan.appendChild(quoteGroup[0]);
 
   for (let i = 1; i < quoteGroup.length; i++) {
     origParent?.removeChild(quoteGroup[i]);
-    spannySpan.appendChild(quoteGroup[i]);
+    quoteSpan.appendChild(quoteGroup[i]);
   }
 }
 
 /**
  * Recursively searches for a paragraph, or element which contains no paragraphs.
  *
- * When it stops recursing, it only considers quotes in text node children when deciding what matches.
+ * In the base case, this also moves children of <span> elements with no attributes
+ * directly into their parents, since we only consider quote marks in text node
+ * children when choosing where to start/end highlights.
  *
  * @param {Element} element
  */
 function recursivelyHighlight(element) {
-  const children = Array.from(element.childNodes);
-  if (element.nodeName !== "P" || element.querySelector("p") !== null) {
-    children.forEach((child) =>
+  const origChildren = Array.from(element.childNodes);
+  // recursive case
+  if (element.nodeName !== 'P' || element.querySelector('p') !== null) {
+    origChildren.forEach(child =>
       recursivelyHighlight(/**@type {HTMLElement}*/ (child))
     );
     return;
   }
 
-  // split text at quotes
-  children.forEach((child) => {
+  // get rid of span elements which add no value
+  // (I just accidentally ran across a fic that had these in every paragraph)
+  origChildren.forEach(child => {
+    if (
+      child.nodeName === 'SPAN' &&
+      /**@type {HTMLElement}*/ (child).outerHTML.startsWith('<span>')
+    ) {
+      // freeze the span's children
+      const spanChildren = Array.from(child.childNodes);
+      spanChildren.forEach(spanChild => {
+        element.insertBefore(spanChild, child);
+      });
+      child.remove();
+    }
+  });
+
+  const children = Array.from(element.childNodes);
+  // base case: split text at quotes
+  children.forEach(child => {
     if (child.nodeType === Node.TEXT_NODE && child.textContent) {
       const rawMatches = [
-        ...child.textContent.matchAll(new RegExp(quoteRegexString, "gi")),
+        ...child.textContent.matchAll(new RegExp(quoteRegexString, 'gi')),
       ];
-      // index should never be undefined, but if it is, fall back to -1 I guess so the
-      // compiler doesn't complain
-      const matchIndexes = rawMatches.map((match) => match.index ?? -1);
+      // index should never be undefined, but if it is, fall back to -1 so the
+      // type checker doesn't complain
+      const matchIndexes = rawMatches.map(match => match.index ?? -1);
       // sort from high to low order
       const matches = matchIndexes.sort((a, b) => b - a);
 

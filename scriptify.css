@@ -1,0 +1,51 @@
+/* Underline on hover */
+span.script-quote:hover.active-quote {
+    border-bottom: 1px solid;
+}
+
+span.script-quote:focus.active-quote {
+    outline: 1px dotted;
+}
+
+.hidden {
+    display: none;
+}
+
+.highlight-form button:hover {
+    outline: 1px solid;
+}
+
+.color-bar {
+    border: 1px double;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+#scriptify-button-list li {
+    display: inline-block;
+}
+
+#scriptify-button-list button {
+    width: 13em;
+}
+
+#scriptify-button-list button.active-button,
+#scriptify-button-list button.active-button:hover {
+    display: inline-block;
+    border: 2px solid white;
+    outline: 2px solid black;
+}
+
+#scriptify-button-list button:hover {
+    border: 1px solid white;
+    outline: 1px solid black;
+}
+
+#scriptify-button-list button:focus {
+    border: 1px dotted white;
+    outline: 1px dotted black;
+}
