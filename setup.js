@@ -1,10 +1,10 @@
+// @ts-check
+
 /**
  * Generate the dom elements for color-coding dialogue on a work page.
  *
  * This function is a no-op if the elements already exist, or this is not a work
  * page. The elements start off hidden.
- *
- * @returns {boolean} Whether the dom was successfully set up
  */
 function setupHighlighting() {
   // Document positioning. Note: this selector only works on a work page.
@@ -13,12 +13,12 @@ function setupHighlighting() {
     console.log(
       "Unable to determine where to insert highlighting buttons--aborting"
     );
-    return false;
+    return;
   }
 
   if (document.getElementById("highlight-title") !== null) {
     console.log("Aborting highlighting setup--this has already been done.");
-    return false;
+    return;
   }
 
   const highlightTitle = document.createElement("dt");
@@ -36,11 +36,15 @@ function setupHighlighting() {
   startButton.addEventListener("click", () => {
     startButton.disabled = true;
     injectColorCss();
-    recursivelyHighlight(document.querySelector("#workskin"));
+    const work = document.querySelector("#workskin");
+    if (work) {
+      recursivelyHighlight(work);
+    }
 
     Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-      wrapQuoteWithButton(quote)
+      wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
     );
+    highlightForm.appendChild(freezeButton);
   });
   highlightForm.appendChild(startButton);
 
@@ -54,20 +58,21 @@ function setupHighlighting() {
       freezeButton.textContent = unfreezeText;
 
       Array.from(document.querySelectorAll(".script-quote-button")).forEach(
-        (quote) => quote.parentNode.replaceChild(quote.querySelector("span")),
-        quote
+        (quote) =>
+          quote.parentNode?.replaceChild(
+            /**@type {Node}*/
+            (quote.querySelector(".script-quote")),
+            quote
+          )
       );
     } else {
       freezeButton.textContent = freezeText;
 
       Array.from(document.querySelectorAll(".script-quote")).forEach((quote) =>
-        wrapQuoteWithButton(quote)
+        wrapQuoteWithButton(/**@type {HTMLElement}*/ (quote))
       );
     }
   });
-  highlightForm.appendChild(freezeButton);
-
-  return true;
 }
 
 const colorState = { num: 1, increase: false };
@@ -80,10 +85,10 @@ const colorState = { num: 1, increase: false };
 function wrapQuoteWithButton(quote) {
   const button = document.createElement("button");
   button.classList.add("script-quote-button");
-  quote.parentNode.replaceChild(button, quote);
+  quote.parentNode?.replaceChild(button, quote);
   button.appendChild(quote);
   button.addEventListener("click", () => {
-    const curColor = quote.dataset.color;
+    const curColor = Number(quote.dataset.color);
     let newColor = curColor + 1;
 
     if (colorState.increase) {
@@ -105,7 +110,7 @@ function wrapQuoteWithButton(quote) {
 
     quote.classList.remove(`color-${curColor}`);
     quote.classList.add(`color-${newColor}`);
-    quote.dataset.color = newColor;
+    quote.dataset.color = `${newColor}`;
   });
 }
 
@@ -125,9 +130,11 @@ function getColor(i) {
   // first, odd /14ths. Then, even 14ths.
   const adjusted = (((i * 4) % 7) * 2 - 1) / 14.0;
   if (i < 7) {
+    // @ts-ignore
     return d3.interpolateRainbow(adjusted);
   }
   if (i < 14) {
+    // @ts-ignore
     return d3.interpolateRainbow(adjusted - 1 / 14.0);
   }
   // we are out of colors; return bright red.
@@ -135,13 +142,16 @@ function getColor(i) {
 }
 
 function getTextColor(i) {
+  // @ts-ignore
   const background = new Color(getColor(i));
 
   // https://colorjs.io/docs/contrast.html#accessible-perceptual-contrast-algorithm-apca
   const contrastWhite = Math.abs(
+    // @ts-ignore
     background.contrast(new Color("white"), "APCA")
   );
   const contrastBlack = Math.abs(
+    // @ts-ignore
     background.contrast(new Color("black"), "APCA")
   );
 

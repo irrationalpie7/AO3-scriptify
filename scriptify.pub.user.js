@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
@@ -15,6 +15,7 @@
 // @require      highlight.js
 // @require      setup.js
 // ==/UserScript==
+// @ts-check
 
 (async function () {
   "use strict";
