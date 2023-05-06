@@ -124,9 +124,11 @@ function injectColorBar() {
   if (body && isLight(window.getComputedStyle(body).backgroundColor)) {
     modeButton.classList.add('dark-mode');
     modeButton.textContent = 'dark_mode';
+    colorBar.classList.add('light-mode');
   } else {
     modeButton.classList.add('light-mode');
     modeButton.textContent = 'light_mode';
+    colorBar.classList.add('dark-mode');
   }
   modeButton.addEventListener('click', () => {
     if (modeButton.classList.contains('dark-mode')) {
