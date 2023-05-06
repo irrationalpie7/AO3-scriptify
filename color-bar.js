@@ -111,7 +111,6 @@ function injectColorBar() {
   const colorBar = document.createElement('div');
   colorBar.id = 'color-bar';
   colorBar.classList.add('hidden');
-  colorBar.classList.add('group');
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
 
@@ -157,6 +156,7 @@ function injectColorBar() {
       colorBar.classList.remove('dark-mode');
     }
   });
+  colorBar.appendChild(modeButton);
 
   const button = document.createElement('button');
   button.id = `scriptify-button-rotate`;
@@ -249,9 +249,9 @@ function getColor(i) {
  */
 function getTextColor(i) {
   if (isLight(getColor(i))) {
-    return 'white';
+    return 'black';
   }
-  return 'black';
+  return 'white';
 }
 
 /**
