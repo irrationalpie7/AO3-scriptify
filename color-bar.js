@@ -117,15 +117,6 @@ function injectColorBar() {
   const div = document.createElement('div');
   colorBar.appendChild(div);
 
-  const info = document.createElement('p');
-  info.innerHTML =
-    'Rotate through available colors or pick a particular color to paint.';
-  div.appendChild(info);
-
-  const buttonList = document.createElement('ul');
-  buttonList.id = 'scriptify-button-list';
-  div.appendChild(buttonList);
-
   const modeButton = document.createElement('button');
   modeButton.classList.add('material-icons');
   modeButton.classList.add('mode');
@@ -157,6 +148,15 @@ function injectColorBar() {
     }
   });
   div.appendChild(modeButton);
+
+  const info = document.createElement('p');
+  info.innerHTML =
+    'Rotate through available colors or pick a particular color to paint.';
+  div.appendChild(info);
+
+  const buttonList = document.createElement('ul');
+  buttonList.id = 'scriptify-button-list';
+  div.appendChild(buttonList);
 
   const button = document.createElement('button');
   button.id = `scriptify-button-rotate`;
