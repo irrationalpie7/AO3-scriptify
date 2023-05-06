@@ -70,14 +70,15 @@ function setupHighlighting() {
     colorBar.classList.remove('hidden');
     makeColorBarSticky(colorBar);
 
-    const warning = document.createElement('p');
-    warning.innerHTML =
-      'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
-    highlightForm.appendChild(warning);
-
+    startButton.remove();
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export';
     exportButton.addEventListener('click', () => exportHtmlFile());
     highlightForm.appendChild(exportButton);
+
+    const warning = document.createElement('p');
+    warning.innerHTML =
+      "<strong>Warning:</strong> once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! If copy/paste doesn't work or is too messy, use the export button. You can look at the resulting file in any browser, or upload it to google drive and then open it as a doc.";
+    highlightForm.appendChild(warning);
   });
 }
