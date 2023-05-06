@@ -78,5 +78,6 @@ function setupHighlighting() {
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export';
     exportButton.addEventListener('click', () => exportHtmlFile());
+    highlightForm.appendChild(exportButton);
   });
 }
