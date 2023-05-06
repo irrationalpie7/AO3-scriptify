@@ -18,11 +18,9 @@ function exportHtmlFile() {
   );
   extras.forEach(extra => extra.remove());
   new_work.querySelectorAll('button').forEach(button => {
-    const buttonChildren = Array.from(button.childNodes);
-    buttonChildren.forEach(child =>
-      button.parentNode?.insertBefore(child, button)
-    );
-    button.remove();
+    const span = exportDoc.createElement('span');
+    span.textContent = button.textContent?.trim() || '';
+    button.parentNode?.replaceChild(span, button);
   });
 
   let i = 0;
