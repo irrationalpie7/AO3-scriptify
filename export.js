@@ -13,6 +13,17 @@ function exportHtmlFile() {
     quote.removeAttribute('role');
     quote.removeAttribute('tabindex');
   });
+  const extras = Array.from(
+    new_work.querySelectorAll('span.material-icons, progress')
+  );
+  extras.forEach(extra => extra.remove());
+  new_work.querySelectorAll('button').forEach(button => {
+    const buttonChildren = Array.from(button.childNodes);
+    buttonChildren.forEach(child =>
+      button.parentNode?.insertBefore(child, button)
+    );
+    button.remove();
+  });
 
   let i = 0;
   let style = document.querySelector(`#color-${i}`);
