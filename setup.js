@@ -74,5 +74,9 @@ function setupHighlighting() {
     warning.innerHTML =
       'Warning: once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! To save, use ctrl+s to save this web page. Then you can import the resulting html file into google docs to share the script with others.';
     highlightForm.appendChild(warning);
+
+    const exportButton = document.createElement('button');
+    exportButton.textContent = 'Export';
+    exportButton.addEventListener('click', () => exportHtmlFile());
   });
 }
