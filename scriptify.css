@@ -23,10 +23,34 @@ span.script-quote:focus.active-quote {
   z-index: 1;
 }
 
+button.mode {
+  margin: 2px;
+  padding: 0 2px;
+  position: absolute;
+  right: 10px;
+}
+
+#color-bar.light-mode,
+#color-bar .light-mode {
+  background: white;
+  color: #2a2a2a;
+}
+
+#color-bar.dark-mode,
+#color-bar .dark-mode {
+  background: #333;
+  color: #eee;
+}
+
 #color-bar > div {
   border: 1px double;
   padding: 0 10px;
   margin: 5px 0;
+  position: relative;
+}
+
+#color-bar p {
+  padding-right: 30px;
 }
 
 #color-bar.sticky div {
@@ -49,7 +73,13 @@ span.script-quote:focus.active-quote {
   margin: 5px 0;
 }
 
-#scriptify-button-rotate {
+#color-bar button {
+  margin: 2px;
+  box-shadow: inset 0 -2px 4px #232323, inset 0 2px 7px #555;
+  background-image: none;
+}
+
+#color-bar button#scriptify-button-rotate {
   background-image: linear-gradient(
     to right,
     rgba(255, 201, 222),
@@ -63,25 +93,20 @@ span.script-quote:focus.active-quote {
   color: black;
 }
 
-#scriptify-button-list button {
-  margin: 2px;
-  box-shadow: inset 0 -2px 4px #232323, inset 0 2px 7px #555;
-}
-
 /* button activity */
-#scriptify-button-list button.active-button,
-#scriptify-button-list button.active-button:hover {
+#color-bar button.active-button,
+#color-bar button.active-button:hover {
   display: inline-block;
   border: 2px solid #cccccc;
   outline: 2px solid #444444;
 }
 
-#scriptify-button-list button:focus {
+#color-bar button:focus {
   border: 1px dotted white;
   outline: 1px dotted black;
 }
 
-#scriptify-button-list button:hover {
+#color-bar button:hover {
   border: 1px solid white;
   outline: 1px solid black;
 }

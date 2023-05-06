@@ -127,6 +127,37 @@ function injectColorBar() {
   buttonList.id = 'scriptify-button-list';
   div.appendChild(buttonList);
 
+  const modeButton = document.createElement('button');
+  modeButton.classList.add('material-icons');
+  modeButton.classList.add('mode');
+  const body = document.querySelector('body');
+  if (body && isLight(window.getComputedStyle(body).backgroundColor)) {
+    modeButton.classList.add('dark-mode');
+    modeButton.textContent = 'dark_mode';
+  } else {
+    modeButton.classList.add('light-mode');
+    modeButton.textContent = 'light_mode';
+  }
+  modeButton.addEventListener('click', () => {
+    if (modeButton.classList.contains('dark-mode')) {
+      // update button
+      modeButton.classList.remove('dark-mode');
+      modeButton.classList.add('light-mode');
+      modeButton.textContent = 'light_mode';
+      // update color bar
+      colorBar.classList.add('dark-mode');
+      colorBar.classList.remove('light-mode');
+    } else {
+      // update button
+      modeButton.classList.remove('light-mode');
+      modeButton.classList.add('dark-mode');
+      modeButton.textContent = 'dark_mode';
+      // update color bar
+      colorBar.classList.add('light-mode');
+      colorBar.classList.remove('dark-mode');
+    }
+  });
+
   const button = document.createElement('button');
   button.id = `scriptify-button-rotate`;
   button.textContent = `Rotate`;
@@ -217,9 +248,21 @@ function getColor(i) {
  * @returns {string} CSS color
  */
 function getTextColor(i) {
-  // @ts-ignore
-  const background = new Color(getColor(i));
+  if (isLight(getColor(i))) {
+    return 'white';
+  }
+  return 'black';
+}
 
+/**
+ * Checks whether a color.js color is light
+ *
+ * @param {string} color A Css color string
+ * @returns {boolean}
+ */
+function isLight(color) {
+  // @ts-ignore
+  const background = new Color(color);
   // https://colorjs.io/docs/contrast.html#accessible-perceptual-contrast-algorithm-apca
   const contrastWhite = Math.abs(
     // @ts-ignore
@@ -230,9 +273,6 @@ function getTextColor(i) {
     background.contrast(new Color('black'), 'APCA')
   );
 
-  // the farther from zero, the better
-  if (contrastBlack < contrastWhite) {
-    return 'white';
-  }
-  return 'black';
+  // the farther from zero, the better the contrast
+  return contrastBlack > contrastWhite;
 }
