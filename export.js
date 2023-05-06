@@ -6,7 +6,7 @@ function exportHtmlFile() {
   if (!work) {
     return;
   }
-  const new_work = exportDoc.importNode(work);
+  const new_work = exportDoc.importNode(work, true);
   exportDoc.body.appendChild(new_work);
   new_work.querySelector('#color-bar')?.remove();
   new_work.querySelectorAll('.script-quote').forEach(quote => {
@@ -17,7 +17,7 @@ function exportHtmlFile() {
   let i = 0;
   let style = document.querySelector(`#color-${i}`);
   while (style) {
-    exportDoc.head.appendChild(exportDoc.importNode(style));
+    exportDoc.head.appendChild(exportDoc.importNode(style, true));
     i++;
     style = document.querySelector(`#color-${i}`);
   }
