@@ -9,10 +9,34 @@ function exportHtmlFile() {
   const new_work = exportDoc.importNode(work, true);
   exportDoc.body.appendChild(new_work);
   new_work.querySelector('#color-bar')?.remove();
+
+  let i = 0;
+  const styles = [];
+  let style = document.querySelector(`#color-${i}`);
+  while (style) {
+    styles.push(
+      style.textContent
+        // @ts-ignore
+        ?.replaceAll('\n', ' ')
+        .replace(/.*{/, '')
+        .replace(/}.*/, '')
+        .replace(/ +/g, ' ')
+        .trim()
+    );
+    i++;
+    style = document.querySelector(`#color-${i}`);
+  }
+
   new_work.querySelectorAll('.script-quote').forEach(quote => {
     quote.removeAttribute('role');
     quote.removeAttribute('tabindex');
+    quote.setAttribute(
+      'style',
+      styles[Number(/**@type {HTMLElement}*/ (quote).dataset.color)]
+    );
   });
+
+  // clean up work, removing interactive elements and icons
   const extras = Array.from(
     new_work.querySelectorAll('span.material-icons, progress')
   );
@@ -23,28 +47,17 @@ function exportHtmlFile() {
     button.parentNode?.replaceChild(span, button);
   });
 
-  let i = 0;
-  let style = document.querySelector(`#color-${i}`);
-  while (style) {
-    exportDoc.head.appendChild(exportDoc.importNode(style, true));
-    i++;
-    style = document.querySelector(`#color-${i}`);
-  }
-
+  // Do the actual export
   // Create element with <a> tag
   const link = document.createElement('a');
-
-  // Create a blog object with the file content which you want to add to the file
+  // Create a blob object with the file content which you want to add to the file
   const file = new Blob([new XMLSerializer().serializeToString(exportDoc)], {
     type: 'text/plain',
   });
-
   // Add file content in the object URL
   link.href = URL.createObjectURL(file);
-
   // Add file name
   link.download = 'export.html';
-
   // Add click event to <a> tag to save file.
   link.click();
   URL.revokeObjectURL(link.href);
