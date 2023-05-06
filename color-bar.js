@@ -156,7 +156,7 @@ function injectColorBar() {
       colorBar.classList.remove('dark-mode');
     }
   });
-  colorBar.appendChild(modeButton);
+  div.appendChild(modeButton);
 
   const button = document.createElement('button');
   button.id = `scriptify-button-rotate`;
