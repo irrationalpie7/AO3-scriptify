@@ -2,13 +2,17 @@
 
 function exportHtmlFile() {
   const exportDoc = document.implementation.createHTMLDocument(document.title);
-  const work = document.querySelector('div.work');
+  const work = document.querySelector('#main');
   if (!work) {
+    console.log('Found no work to export.');
     return;
   }
+
   const new_work = exportDoc.importNode(work, true);
   exportDoc.body.appendChild(new_work);
   new_work.querySelector('#color-bar')?.remove();
+  new_work.querySelector('#highlight-title')?.remove();
+  new_work.querySelector('#highlight-form')?.remove();
 
   let i = 0;
   const styles = [];
