@@ -2,24 +2,17 @@
 
 function exportHtmlFile() {
   const exportDoc = document.implementation.createHTMLDocument(document.title);
-  const metadata = document.querySelector('.wrapper > dl');
-  const work = document.querySelector('#workskin');
-  if (!metadata || !work) {
-    console.log('Found no metadata or work to export.');
+  const work = document.querySelector('#main');
+  if (!work) {
+    console.log('Found no work to export.');
     return;
   }
-
-  const new_metadata = exportDoc.importNode(metadata, true);
-  const div = exportDoc.createElement('div');
-  div.classList.add('wrapper');
-  exportDoc.body.appendChild(div);
-  div.appendChild(new_metadata);
-  new_metadata.querySelector('#highlight-title')?.remove();
-  new_metadata.querySelector('#highlight-form')?.remove();
 
   const new_work = exportDoc.importNode(work, true);
   exportDoc.body.appendChild(new_work);
   new_work.querySelector('#color-bar')?.remove();
+  new_work.querySelector('#highlight-title')?.remove();
+  new_work.querySelector('#highlight-form')?.remove();
 
   let i = 0;
   const styles = [];
