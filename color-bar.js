@@ -1,6 +1,37 @@
 // @ts-check
 const colorState = {num: 1, increase: false, locked: false, lockIndex: 0};
 
+// Colors from https://colorbrewer2.org/#type=qualitative&scheme=Set3&n=12
+const brewerSet = [
+  '#8dd3c7',
+  '#ffffb3',
+  '#bebada',
+  '#fb8072',
+  '#80b1d3',
+  '#fdb462',
+  '#b3de69',
+  '#fccde5',
+  '#d9d9d9',
+  '#bc80bd',
+  '#ccebc5',
+  '#ffed6f',
+];
+// Colors from https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
+const brewerPairs = [
+  '#a6cee3',
+  '#1f78b4',
+  '#b2df8a',
+  '#33a02c',
+  '#fb9a99',
+  '#e31a1c',
+  '#fdbf6f',
+  '#ff7f00',
+  '#cab2d6',
+  '#6a3d9a',
+  '#ffff99',
+  '#b15928',
+];
+
 /**
  * Update color bar
  *
@@ -91,15 +122,12 @@ function enableQuoteClicking(quote) {
   quote.tabIndex = 0;
   quote.classList.add('active-quote');
   const thisQuote = quote;
-  quote.addEventListener('click', () => click(thisQuote));
-  quote.addEventListener('keyDown', e => {
-    if (
-      /**@type {KeyboardEvent}*/ (e).key === 'Enter' ||
-      /**@type {KeyboardEvent}*/ (e).key === ' '
-    ) {
+  quote.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
       click(thisQuote);
     }
   });
+  quote.addEventListener('click', () => click(thisQuote));
 }
 
 /**
@@ -113,6 +141,8 @@ function injectColorBar() {
   colorBar.classList.add('hidden');
   const work = document.querySelector('#workskin');
   work?.parentNode?.insertBefore(colorBar, work);
+  // used for sticky spacing purposes
+  work?.parentNode?.insertBefore(document.createElement('div'), work);
 
   const div = document.createElement('div');
   colorBar.appendChild(div);
@@ -120,6 +150,7 @@ function injectColorBar() {
   const modeButton = document.createElement('button');
   modeButton.classList.add('material-icons');
   modeButton.classList.add('mode');
+  // pick initial light/dark mode
   const body = document.querySelector('body');
   if (body && isLight(window.getComputedStyle(body).backgroundColor)) {
     modeButton.classList.add('dark-mode');
@@ -130,6 +161,7 @@ function injectColorBar() {
     modeButton.textContent = 'light_mode';
     colorBar.classList.add('dark-mode');
   }
+  div.appendChild(modeButton);
   modeButton.addEventListener('click', () => {
     if (modeButton.classList.contains('dark-mode')) {
       // update button
@@ -149,7 +181,21 @@ function injectColorBar() {
       colorBar.classList.remove('dark-mode');
     }
   });
-  div.appendChild(modeButton);
+
+  // <span class="material-symbols-outlined">push_pin</span>
+  const pin_button = document.createElement('input');
+  pin_button.id = 'pin_button';
+  pin_button.type = 'checkbox';
+  pin_button.classList.add('pin');
+  pin_button.checked = true;
+  div.appendChild(pin_button);
+
+  const pin_button_label = document.createElement('label');
+  pin_button_label.htmlFor = 'pin_button';
+  pin_button_label.textContent = 'push_pin';
+  pin_button_label.classList.add('material-icons');
+  pin_button_label.classList.add('pin-label');
+  div.appendChild(pin_button_label);
 
   const info = document.createElement('p');
   info.innerHTML =
@@ -192,17 +238,38 @@ function injectColorBar() {
  * @param {HTMLElement} colorBar
  */
 function makeColorBarSticky(colorBar) {
-  // Get the offset position of the navbar
-  const sticky = colorBar.offsetTop;
+  const metadataSection = /**@type {HTMLElement}*/ (
+    document.querySelector('.wrapper > dl')
+  );
+  const pin = /**@type {HTMLInputElement}*/ (colorBar.querySelector('.pin'));
+  if (metadataSection && pin) {
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    window.onscroll = () => stickify(colorBar, metadataSection, pin);
 
-  // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-  window.onscroll = () => {
-    if (window.pageYOffset > sticky) {
-      colorBar.classList.add('sticky');
-    } else {
-      colorBar.classList.remove('sticky');
-    }
-  };
+    pin.addEventListener('change', () =>
+      stickify(colorBar, metadataSection, pin)
+    );
+  }
+}
+
+/**
+ *
+ * @param {HTMLElement} colorBar
+ * @param {HTMLElement} metadataSection
+ * @param {HTMLInputElement} pin
+ */
+function stickify(colorBar, metadataSection, pin) {
+  const sticky = metadataSection.offsetTop + metadataSection.offsetHeight;
+  if (window.scrollY > sticky && pin.checked) {
+    colorBar.nextElementSibling?.setAttribute(
+      'style',
+      `height: ${colorBar.offsetHeight}px;`
+    );
+    colorBar.classList.add('sticky');
+  } else {
+    colorBar.classList.remove('sticky');
+    colorBar.nextElementSibling?.setAttribute('style', 'display: none;');
+  }
 }
 
 /**
@@ -229,6 +296,15 @@ function injectColorCss(i) {
  * @returns {string} CSS color
  */
 function getColor(i) {
+  /* 
+(set)
+  
+
+OR 
+(paired)
+
+*/
+
   // first, odd /14ths. Then, even 14ths.
   const adjusted = (((i * 4) % 7) * 2 - 1) / 14.0;
   if (i < 7) {

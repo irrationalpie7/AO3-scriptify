@@ -1,10 +1,15 @@
 /* Quotes */
-span.script-quote:hover.active-quote {
-  border-bottom: 1px solid;
+span.script-quote {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
-span.script-quote:focus.active-quote {
-  outline: 1px dotted;
+span.script-quote.active-quote:focus {
+  outline: 2px dotted #bbb;
+}
+
+span.script-quote.active-quote:hover {
+  outline: 2px solid #bbb;
 }
 
 /* Start button/setup */
@@ -12,13 +17,13 @@ span.script-quote:focus.active-quote {
   display: none;
 }
 
-.highlight-form button:hover {
+#highlight-form button:hover {
   outline: 1px solid;
 }
 
-/* floating color bar */
+/* Floating color bar */
 #color-bar {
-  padding: 0;
+  padding: 0.3em 0;
   padding-top: 10px;
   z-index: 1;
 }
@@ -38,22 +43,19 @@ span.script-quote:focus.active-quote {
 #color-bar > div {
   border: 1px double;
   padding: 0 10px;
-  margin: 5px 0;
   position: relative;
 }
 
-#color-bar p {
-  padding-right: 30px;
+#color-bar p,
+#scriptify-button-list {
+  padding-right: 40px;
+  margin-bottom: 0;
 }
 
 #color-bar.sticky {
   position: fixed;
   top: 0;
   width: 93%;
-}
-
-.sticky + #workskin {
-  padding-top: 70px;
 }
 
 /* color buttons in color bar */
@@ -69,10 +71,30 @@ span.script-quote:focus.active-quote {
 }
 
 #color-bar button.mode {
-  margin: 10px;
+  margin: 0.25em;
   padding: 0 2px;
   position: absolute;
   right: 0;
+  z-index: 2;
+}
+
+#color-bar .pin {
+  display: block;
+  margin: 0.25em;
+  padding: 0 2px;
+  position: absolute;
+  right: 5px;
+  bottom: 8px;
+  z-index: 2;
+}
+
+#color-bar .pin-label {
+  display: block;
+  margin: 0.25em;
+  padding: 0 2px;
+  position: absolute;
+  right: 15px;
+  bottom: 0;
   z-index: 2;
 }
 
@@ -92,13 +114,16 @@ span.script-quote:focus.active-quote {
 
 /* button activity */
 #color-bar button.active-button,
-#color-bar button.active-button:hover {
+#color-bar button.active-button:hover,
+#color-bar .pin,
+#color-bar .pin:hover
+{
   display: inline-block;
   border: 2px solid #cccccc;
   outline: 2px solid #444444;
 }
 
-#color-bar button:focus {
+#color-bar button:focus, .pin:focus {
   border: 1px dotted white;
   outline: 1px dotted black;
 }

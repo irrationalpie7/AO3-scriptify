@@ -21,5 +21,7 @@ Additionally, a panel will appear with buttons for each of the currently in-use 
 If you don't like the background color of the control panel, you can use the button in the top right of the control panel to switch between light and dark mode. Light mode is designed to fit with the default AO3 site skin, and dark mode to fit with the Reversi site skin.
 ![A black panel with a rainbow "rotate" button, a blue "0" button, green "1" button, and white button with a sun icon](images/4-dark-button-panel.png)
 
+The pin checkbox below the sun/moon icons allows you to pin or unpin the panel with the color options (not shown in images, since this was added without taking new screen caps). If it's checked, the panel will stay visible at the top of the screen as you scroll, if it's unchecked, it'll stay in place above the title of the work and scroll out of view as you scroll down the work.
+
 Here we can see the extension in use. The control panel floats at the top of the screen, and the lines of dialogue of the test work have become highlighted (clickable) areas. Frog's lines are still in the initial dark blue color, but since Toad's lines have been colored green, a new color option has appeared.
 ![A floating panel with "rotate" plus three color button options, over a work with dialogue between characters Frog and Toad. Frog's lines are dark blue and Toad's bright green](images/5-in-use.png)
