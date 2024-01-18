@@ -259,7 +259,7 @@ function makeColorBarSticky(colorBar) {
  * @param {HTMLInputElement} pin
  */
 function stickify(colorBar, metadataSection, pin) {
-  const sticky = metadataSection.offsetTop + metadataSection.offsetHeight;
+  let sticky = metadataSection.offsetTop + metadataSection.offsetHeight;
   if (window.scrollY > sticky && pin.checked) {
     colorBar.nextElementSibling?.setAttribute(
       'style',
