@@ -25,3 +25,12 @@ The pin checkbox below the sun/moon icons allows you to pin or unpin the panel w
 
 Here we can see the extension in use. The control panel floats at the top of the screen, and the lines of dialogue of the test work have become highlighted (clickable) areas. Frog's lines are still in the initial dark blue color, but since Toad's lines have been colored green, a new color option has appeared.
 ![A floating panel with "rotate" plus three color button options, over a work with dialogue between characters Frog and Toad. Frog's lines are dark blue and Toad's bright green](images/5-in-use.png)
+
+## Keyboard tips and tricks
+
+(please do let me know if any of these break!)
+
+* Hitting 'Enter' while any button is focused does the same thing as clicking the button. That includes the color bar controls and the quoted dialogue lines.
+* Hitting the digit or letter associated with a color (e.g. 0 for the first one), while you're focused on a dialogue line, behaves like clicking that color in the color bar, and then clicking the dialogue line you're on (so, if you're on a line of dialogue, hitting '1' will paint the quote that color)
+* Hitting '+' while on a dialogue line will paint it the next color in order, based on the line's current color (unless it's already the max color, then it'll cycle back to the beginning). This is like what you'd get by clicking the "Rotate" button in the color bar, and then the dialogue line.
+* Hitting 'Tab' sends you to the next line of dialogue (or the next control bar button)

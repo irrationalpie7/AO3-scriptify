@@ -80,5 +80,10 @@ function setupHighlighting() {
     warning.innerHTML =
       "<strong>Warning:</strong> once you start color-coding dialogue, refreshing the page <em>will</em> ruin all your hard work! If copy/paste doesn't work or is too messy, use the export button. You can look at the resulting file in any browser, or upload it to google drive and then open it as a doc.";
     highlightForm.appendChild(warning);
+
+    const tips = document.createElement('p');
+    tips.innerHTML =
+      'Some <a href="https://github.com/irrationalpie7/AO3-scriptify?tab=readme-ov-file#keyboard-tips-and-tricks" target="_blank">keyboard tips and tricks</a>.';
+    highlightForm.appendChild(tips);
   });
 }
