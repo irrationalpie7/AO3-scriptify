@@ -83,7 +83,7 @@ function setupHighlighting() {
 
     const tips = document.createElement('p');
     tips.innerHTML =
-      'Some <a href="https://github.com/irrationalpie7/AO3-scriptify?tab=readme-ov-file#keyboard-tips-and-tricks">keyboard tips and tricks</a>.';
+      'Some <a href="https://github.com/irrationalpie7/AO3-scriptify?tab=readme-ov-file#keyboard-tips-and-tricks" target="_blank">keyboard tips and tricks</a>.';
     highlightForm.appendChild(tips);
   });
 }
