@@ -4,6 +4,10 @@ span.script-quote {
   padding-bottom: 2px;
 }
 
+span.script-quote.active-quote {
+  cursor: default;
+}
+
 span.script-quote.active-quote:focus {
   outline: 2px dotted #bbb;
 }
@@ -29,15 +33,21 @@ span.script-quote.active-quote:hover {
 }
 
 #color-bar.light-mode,
-#color-bar .light-mode {
+#color-bar .light-mode, 
+#color-bar.dark-mode #scriptify-button-plus {
   background: white;
   color: #2a2a2a;
 }
 
 #color-bar.dark-mode,
-#color-bar .dark-mode {
+#color-bar .dark-mode,
+#color-bar.light-mode #scriptify-button-plus {
   background: #333;
   color: #eee;
+}
+
+#color-bar #scriptify-button-plus:disabled {
+  background-color: #888;
 }
 
 #color-bar > div {
@@ -79,22 +89,16 @@ span.script-quote.active-quote:hover {
 }
 
 #color-bar .pin {
-  display: block;
-  margin: 0.25em;
-  padding: 0 2px;
-  position: absolute;
-  right: 5px;
-  bottom: 8px;
-  z-index: 2;
+  margin-right: 4px;
 }
 
 #color-bar .pin-label {
   display: block;
-  margin: 0.25em;
-  padding: 0 2px;
+  margin: 0;
+  padding: 3px 5px 0 0;
   position: absolute;
-  right: 15px;
-  bottom: 0;
+  right: 5px;
+  bottom: 3px;
   z-index: 2;
 }
 
@@ -113,22 +117,36 @@ span.script-quote.active-quote:hover {
 }
 
 /* button activity */
-#color-bar button.active-button,
-#color-bar button.active-button:hover,
-#color-bar .pin,
-#color-bar .pin:hover
+#color-bar.dark-mode button.active-button
 {
-  display: inline-block;
-  border: 2px solid #cccccc;
-  outline: 2px solid #444444;
+  outline: 2px solid #ccc;
 }
 
-#color-bar button:focus, .pin:focus {
-  border: 1px dotted white;
-  outline: 1px dotted black;
+#color-bar.light-mode button.active-button
+{
+  outline: 2px solid #444;
 }
 
-#color-bar button:hover {
-  border: 1px solid white;
-  outline: 1px solid black;
+#color-bar.light-mode button:focus,
+#color-bar.light-mode .pin-label:focus-within {
+  outline: 2px dotted #444;
+}
+
+#color-bar.dark-mode button:focus,
+#color-bar.dark-mode .pin-label:focus-within {
+  outline: 2px dotted #ccc;
+}
+
+#color-bar.dark-mode button:enabled:hover,
+#color-bar.dark-mode label:hover,
+#color-bar.dark-mode label:hover .pin
+#color-bar.dark-mode label .pin:hover {
+  outline: 2px solid #ccc;
+}
+
+#color-bar.light-mode button:enabled:hover,
+#color-bar.light-mode label:hover,
+#color-bar.light-mode label:hover .pin
+#color-bar.light-mode label .pin:hover {
+  outline: 2px solid #444;
 }
