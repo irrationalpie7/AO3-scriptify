@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AO3 Scriptify
 // @namespace    http://tampermonkey.net/
-// @version      3.1
+// @version      3.1.5
 // @description  Color-code dialogue
 // @author       irrationalpie7
 // @match        https://archiveofourown.org/*
@@ -13,6 +13,7 @@
 // @require      https://d3js.org/d3-interpolate.v1.min.js
 // @require      https://d3js.org/d3-scale-chromatic.v1.min.js
 // @require      export.js
+// @require      pick-colors.js
 // @require      color-bar.js
 // @require      highlight.js
 // @require      setup.js

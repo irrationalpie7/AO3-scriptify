@@ -1,46 +1,15 @@
 // @ts-check
 const colorState = {num: 1, increase: false, locked: false, lockIndex: 0};
 
-// Colors from https://colorbrewer2.org/#type=qualitative&scheme=Set3&n=12
-const brewerSet = [
-  '#8dd3c7',
-  '#ffffb3',
-  '#bebada',
-  '#fb8072',
-  '#80b1d3',
-  '#fdb462',
-  '#b3de69',
-  '#fccde5',
-  '#d9d9d9',
-  '#bc80bd',
-  '#ccebc5',
-  '#ffed6f',
-];
-// Colors from https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=12
-const brewerPairs = [
-  '#a6cee3',
-  '#1f78b4',
-  '#b2df8a',
-  '#33a02c',
-  '#fb9a99',
-  '#e31a1c',
-  '#fdbf6f',
-  '#ff7f00',
-  '#cab2d6',
-  '#6a3d9a',
-  '#ffff99',
-  '#b15928',
-];
-
 /**
  * Update color bar
  *
  * @param {number} i
  */
 function addColorToColorBar(i) {
-  if (i > 14) {
+  if (i > numDistinctColors() - 1) {
     colorState.increase = false;
-    colorState.num = 14;
+    colorState.num = numDistinctColors() - 1;
     return;
   }
   injectColorCss(i);
@@ -79,6 +48,9 @@ function click(quote) {
   }
   const curColor = Number(quote.dataset.color);
   let newColor = curColor + 1;
+  if (newColor >= numDistinctColors()) {
+    newColor = numDistinctColors() - 1;
+  }
   if (colorState.locked) {
     newColor = colorState.lockIndex;
     if (colorState.lockIndex >= colorState.num) {
@@ -91,8 +63,8 @@ function click(quote) {
   if (colorState.increase) {
     // We've previously marked that we want to permanently increase the number
     // of dialogue colors, so do that now....
-    // *unless* we are already the new dialogue color and are trying to rotating back
-    if (curColor !== colorState.num) {
+    // *unless* we are already the new dialogue color and are trying to rotate back
+    if (curColor < colorState.num) {
       colorState.num++;
       colorState.increase = false;
       addColorToColorBar(colorState.num);
@@ -273,84 +245,22 @@ function stickify(colorBar, metadataSection, pin) {
 }
 
 /**
- * Add css for each color.
+ * Add css for the specified color.
+ *
+ * If a style rule for color i already exists, replaces it.
+ *
  * @param {number} i
  */
 function injectColorCss(i) {
-  const style = document.createElement('style');
+  const style =
+    document.querySelector(`#color-${i}`) || document.createElement('style');
   style.id = `color-${i}`;
   style.innerHTML = `.color-${i},
-    button.color-${i},
-    button.color-${i}:focus,
-    button.color-${i}:hover {
-    background-color: ${getColor(i)};
-    color: ${getTextColor(i)}
-    }`;
+      button.color-${i},
+      button.color-${i}:focus,
+      button.color-${i}:hover {
+      background-color: ${getColor(i)};
+      color: ${getTextColor(i)}
+      }`;
   document.head.appendChild(style);
-}
-
-/**
- * Programmatically pick a set of background colors
- *
- * @param {number} i
- * @returns {string} CSS color
- */
-function getColor(i) {
-  /* 
-(set)
-  
-
-OR 
-(paired)
-
-*/
-
-  // first, odd /14ths. Then, even 14ths.
-  const adjusted = (((i * 4) % 7) * 2 - 1) / 14.0;
-  if (i < 7) {
-    // @ts-ignore
-    return d3.interpolateRainbow(adjusted);
-  }
-  if (i < 14) {
-    // @ts-ignore
-    return d3.interpolateRainbow(adjusted - 1 / 14.0);
-  }
-  // we are out of colors; return bright red.
-  return 'rgb(255, 0, 0)';
-}
-
-/**
- * Pick a contrasting text color for that background color.
- *
- * @param {number} i
- * @returns {string} CSS color
- */
-function getTextColor(i) {
-  if (isLight(getColor(i))) {
-    return 'black';
-  }
-  return 'white';
-}
-
-/**
- * Checks whether a color.js color is light
- *
- * @param {string} color A Css color string
- * @returns {boolean}
- */
-function isLight(color) {
-  // @ts-ignore
-  const background = new Color(color);
-  // https://colorjs.io/docs/contrast.html#accessible-perceptual-contrast-algorithm-apca
-  const contrastWhite = Math.abs(
-    // @ts-ignore
-    background.contrast(new Color('white'), 'APCA')
-  );
-  const contrastBlack = Math.abs(
-    // @ts-ignore
-    background.contrast(new Color('black'), 'APCA')
-  );
-
-  // the farther from zero, the better the contrast
-  return contrastBlack > contrastWhite;
 }
