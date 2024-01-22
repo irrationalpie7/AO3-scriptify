@@ -1,23 +1,3 @@
-// ==UserScript==
-// @name         AO3 Scriptify
-// @namespace    http://tampermonkey.net/
-// @version      4.0
-// @description  Color-code dialogue
-// @author       irrationalpie7
-// @match        https://archiveofourown.org/*
-// @updateURL    https://github.com/irrationalpie7/AO3-scriptify/raw/main/scriptify.pub.user.js
-// @downloadURL  https://github.com/irrationalpie7/AO3-scriptify/raw/main/scriptify.pub.user.js
-// @require      https://colorjs.io/dist/color.global.min.js
-// @require      export.js
-// @require      pick-colors.js
-// @require      color-bar.js
-// @require      highlight.js
-// @require      setup.js
-// @resource     scriptify_css scriptify.css
-// @resource     icon_css https://fonts.googleapis.com/icon?family=Material+Icons
-// @grant GM.getResourceUrl
-// @grant GM_getResourceText
-// ==/UserScript==
 // @ts-check
 
 (async function () {
