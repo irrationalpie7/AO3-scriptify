@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name AO3 Scriptify v2
+// @name AO3 Scriptify
 // @description Color-code dialogue
 // @version 4.1
 // @author irrationalpie7
