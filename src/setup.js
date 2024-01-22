@@ -1,4 +1,11 @@
 // @ts-check
+import {
+  enableQuoteClicking,
+  injectColorBar,
+  makeColorBarSticky,
+} from './color-bar';
+import {exportHtmlFile} from './export';
+import {recursivelyHighlight} from './highlight';
 
 /**
  *
@@ -26,7 +33,7 @@ function isAo3WorkPage() {
  * This function is a no-op if the elements already exist, or this is not a work
  * page. The elements start off hidden.
  */
-function setupHighlighting() {
+export function setupHighlighting() {
   // Document positioning. Note: this selector only works on a work page.
   const metaDescriptionList = document.querySelector('dl.work.meta.group');
   if (metaDescriptionList === null) {

@@ -1,4 +1,5 @@
 // @ts-check
+import {setupHighlighting} from './setup';
 
 (async function () {
   ('use strict');

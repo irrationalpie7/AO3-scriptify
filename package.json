@@ -1,6 +1,6 @@
 {
   "name": "ao3-scriptify",
-  "version": "4.0.1",
+  "version": "4.1",
   "description": "Color-code dialogue on AO3 to turn a fic into a script.",
   "main": "scriptify-main.js",
   "private": true,
