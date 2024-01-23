@@ -1,4 +1,11 @@
 // @ts-check
+import {
+  numDistinctColors,
+  isLight,
+  getColor,
+  getTextColor,
+} from './pick-colors';
+
 const colorState = {num: -1, increase: false, locked: false, lockIndex: 0};
 
 /**
@@ -161,7 +168,7 @@ function click(quote) {
  *
  * @param {HTMLElement} quote
  */
-function enableQuoteClicking(quote) {
+export function enableQuoteClicking(quote) {
   // make quote act like a button:
   quote.role = 'button';
   quote.tabIndex = 0;
@@ -206,7 +213,7 @@ function enableQuoteClicking(quote) {
  *
  * @returns {HTMLDivElement}
  */
-function injectColorBar() {
+export function injectColorBar() {
   const colorBar = document.createElement('div');
   colorBar.id = 'color-bar';
   colorBar.classList.add('hidden');
@@ -310,7 +317,7 @@ function injectColorBar() {
  *
  * @param {HTMLElement} colorBar
  */
-function makeColorBarSticky(colorBar) {
+export function makeColorBarSticky(colorBar) {
   const metadataSection = /**@type {HTMLElement}*/ (
     document.querySelector('.wrapper > dl')
   );

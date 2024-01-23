@@ -1,6 +1,6 @@
 // @ts-check
 
-function exportHtmlFile() {
+export function exportHtmlFile() {
   const exportDoc = document.implementation.createHTMLDocument(document.title);
   const work = document.querySelector('#main');
   if (!work) {

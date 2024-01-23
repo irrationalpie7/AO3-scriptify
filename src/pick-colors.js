@@ -1,10 +1,4 @@
-/*
- * Conceptually, things that go here:
- *  * the const color sets
- *  * setup for the UI
- *  * getColor / getTextColor / isLight
- *  * injectColorCss
- */
+// @ts-check
 
 // Original set of colors, generated with 14 steps of d3.interpolateRainbow
 // (Plus bright red as the last/error color)
@@ -66,7 +60,7 @@ let colorArray = origColors;
  * @param {number} i
  * @returns {string} CSS color
  */
-function getColor(i) {
+export function getColor(i) {
   if (i >= colorArray.length) {
     // we are out of colors; return final color
     return colorArray[colorArray.length - 1];
@@ -78,7 +72,7 @@ function getColor(i) {
  * The number of distinct colors in the current color set
  * @returns {number}
  */
-function numDistinctColors() {
+export function numDistinctColors() {
   return colorArray.length;
 }
 
@@ -88,7 +82,7 @@ function numDistinctColors() {
  * @param {number} i
  * @returns {string} CSS color
  */
-function getTextColor(i) {
+export function getTextColor(i) {
   if (isLight(getColor(i))) {
     return 'black';
   }
@@ -101,7 +95,7 @@ function getTextColor(i) {
  * @param {string} color A Css color string
  * @returns {boolean}
  */
-function isLight(color) {
+export function isLight(color) {
   // @ts-ignore
   const background = new Color(color);
   // https://colorjs.io/docs/contrast.html#accessible-perceptual-contrast-algorithm-apca

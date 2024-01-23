@@ -1,0 +1,15 @@
+{
+  "name": "AO3 Scriptify",
+  "namespace": "irrationalpie7",
+  "author": "irrationalpie7",
+  "description": "Color-code dialogue",
+  "downloadURL": "https://github.com/irrationalpie7/AO3-scriptify/raw/main/scriptify.pub.user.js",
+  "updateURL": "https://github.com/irrationalpie7/AO3-scriptify/raw/main/scriptify.pub.user.js",
+  "match": ["https://archiveofourown.org/*"],
+  "grant": ["GM.getResourceUrl", "GM_getResourceText"],
+  "resource": {
+    "scriptify_css": "scriptify.css",
+    "icon_css": "https://fonts.googleapis.com/icon?family=Material+Icons"
+  },
+  "require": ["https://colorjs.io/dist/color.global.min.js"]
+}

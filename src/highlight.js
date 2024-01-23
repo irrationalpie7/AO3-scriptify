@@ -35,7 +35,7 @@ function wrapElements(quoteGroup) {
  *
  * @param {Element} element
  */
-function recursivelyHighlight(element) {
+export function recursivelyHighlight(element) {
   const origChildren = Array.from(element.childNodes);
   // recursive case
   if (element.nodeName !== 'P' || element.querySelector('p') !== null) {
